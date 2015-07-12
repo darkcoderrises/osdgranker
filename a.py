@@ -13,8 +13,6 @@ k=0
 
 for repo in g.get_user().get_repos():
     k+=1
-    if k==1:
-        continue
     owner=""
     if repo.parent:
         owner=repo.parent.owner.login
@@ -25,6 +23,13 @@ for repo in g.get_user().get_repos():
     r=requests.get(url)
     repoItem=json.loads(r.text or r.content)
 
+    url1="https://api.github.com/repos/"+owner+"/"+repo.name+"/languages"
+    r1 = requests.get(url1)
+    repoItem1 = json.loads(r1.text or r1.content)
+    total=0
+    for i in repoItem1:
+        total += int(repoItem1[i])
+
     for i in repoItem:
         if i["author"]["login"]!="darkcoderrises":
             continue
@@ -32,4 +37,5 @@ for repo in g.get_user().get_repos():
         k=0
         for j in  i["weeks"]:
             k+=int(j["a"])+int(j["c"])
-        print k
+        print k,total,k*1.0/total*1.0
+
