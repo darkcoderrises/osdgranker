@@ -2,17 +2,16 @@ from github import Github
 import requests
 import json
 
-user=raw_input()
+User=raw_input()
 password=raw_input()
 
-g=Github(user,password)
+g=Github(User,password)
 
-a=g.get_user().name
+user=raw_input()
 
-k=0
+a=g.get_user(user).name
 
-for repo in g.get_user().get_repos():
-    k+=1
+for repo in g.get_user(user).get_repos():
     owner=""
     if repo.parent:
         owner=repo.parent.owner.login
@@ -31,7 +30,7 @@ for repo in g.get_user().get_repos():
         total += int(repoItem1[i])
 
     for i in repoItem:
-        if i["author"]["login"]!="darkcoderrises":
+        if i["author"]["login"]!=user:
             continue
         print i["author"]["login"],
         k=0
